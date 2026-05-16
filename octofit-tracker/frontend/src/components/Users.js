@@ -1,0 +1,53 @@
+import React, { useEffect, useState } from 'react';
+
+const Users = () => {
+  const [users, setUsers] = useState([]);
+  const endpoint = `https://${process.env.REACT_APP_CODESPACE_NAME}-8000.app.github.dev/api/users/`;
+
+  useEffect(() => {
+    console.log('Fetching Users from:', endpoint);
+    fetch(endpoint)
+      .then(res => res.json())
+      .then(data => {
+        const results = data.results || data;
+        setUsers(results);
+        console.log('Fetched Users:', data);
+      })
+      .catch(err => console.error('Error fetching users:', err));
+  }, [endpoint]);
+
+  return (
+    <div className="card mb-4 shadow">
+      <div className="card-body">
+        <h2 className="card-title mb-4 text-primary">Users</h2>
+        <div className="table-responsive">
+          <table className="table table-hover table-bordered align-middle">
+            <thead className="table-primary">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Username</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+              </tr>
+            </thead>
+            <tbody>
+              {users.length === 0 ? (
+                <tr><td colSpan="4" className="text-center">No users found.</td></tr>
+              ) : users.map((user, idx) => (
+                <tr key={user.id || idx}>
+                  <td>{user.id || idx + 1}</td>
+                  <td>{user.username || '-'}</td>
+                  <td>{user.name || '-'}</td>
+                  <td>{user.email || '-'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <button className="btn btn-primary mt-3" type="button" disabled>Add User (Coming Soon)</button>
+      </div>
+    </div>
+  );
+};
+
+export default Users;
