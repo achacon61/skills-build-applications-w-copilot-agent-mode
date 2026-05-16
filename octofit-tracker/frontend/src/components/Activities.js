@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 const Activities = () => {
   const [activities, setActivities] = useState([]);
-  const endpoint = `${process.env.REACT_APP_CODESPACE_URL}/api/activities/`;
+  const endpoint = `${window.REACT_APP_CODESPACE_URL}/api/activities/`;
 
   useEffect(() => {
     console.log('Fetching Activities from:', endpoint);
@@ -17,20 +17,22 @@ const Activities = () => {
   }, [endpoint]);
 
   return (
-    <div className="card mb-4">
+    <div className="card mb-4 shadow">
       <div className="card-body">
-        <h2 className="card-title mb-4">Activities</h2>
+        <h2 className="card-title mb-4 text-primary">Activities</h2>
         <div className="table-responsive">
-          <table className="table table-striped table-bordered">
-            <thead className="table-dark">
+          <table className="table table-hover table-bordered align-middle">
+            <thead className="table-primary">
               <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Description</th>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
               </tr>
             </thead>
             <tbody>
-              {activities.map((activity, idx) => (
+              {activities.length === 0 ? (
+                <tr><td colSpan="3" className="text-center">No activities found.</td></tr>
+              ) : activities.map((activity, idx) => (
                 <tr key={activity.id || idx}>
                   <td>{activity.id || idx + 1}</td>
                   <td>{activity.name || '-'}</td>
@@ -40,6 +42,7 @@ const Activities = () => {
             </tbody>
           </table>
         </div>
+        <button className="btn btn-primary mt-3" type="button" disabled>Log Activity (Coming Soon)</button>
       </div>
     </div>
   );

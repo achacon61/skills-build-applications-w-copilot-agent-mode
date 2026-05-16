@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 const Leaderboard = () => {
   const [leaders, setLeaders] = useState([]);
-  const endpoint = `${process.env.REACT_APP_CODESPACE_URL}/api/leaderboard/`;
+  const endpoint = `${window.REACT_APP_CODESPACE_URL}/api/leaderboard/`;
 
   useEffect(() => {
     console.log('Fetching Leaderboard from:', endpoint);
@@ -17,20 +17,22 @@ const Leaderboard = () => {
   }, [endpoint]);
 
   return (
-    <div className="card mb-4">
+    <div className="card mb-4 shadow">
       <div className="card-body">
-        <h2 className="card-title mb-4">Leaderboard</h2>
+        <h2 className="card-title mb-4 text-primary">Leaderboard</h2>
         <div className="table-responsive">
-          <table className="table table-striped table-bordered">
-            <thead className="table-dark">
+          <table className="table table-hover table-bordered align-middle">
+            <thead className="table-primary">
               <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Score</th>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Score</th>
               </tr>
             </thead>
             <tbody>
-              {leaders.map((leader, idx) => (
+              {leaders.length === 0 ? (
+                <tr><td colSpan="3" className="text-center">No leaderboard data.</td></tr>
+              ) : leaders.map((leader, idx) => (
                 <tr key={leader.id || idx}>
                   <td>{leader.id || idx + 1}</td>
                   <td>{leader.name || '-'}</td>
@@ -40,6 +42,7 @@ const Leaderboard = () => {
             </tbody>
           </table>
         </div>
+        <button className="btn btn-primary mt-3" type="button" disabled>Challenge (Coming Soon)</button>
       </div>
     </div>
   );

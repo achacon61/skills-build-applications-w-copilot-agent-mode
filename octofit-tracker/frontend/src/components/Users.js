@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 const Users = () => {
   const [users, setUsers] = useState([]);
-  const endpoint = `${process.env.REACT_APP_CODESPACE_URL}/api/users/`;
+  const endpoint = `${window.REACT_APP_CODESPACE_URL}/api/users/`;
 
   useEffect(() => {
     console.log('Fetching Users from:', endpoint);
@@ -17,21 +17,23 @@ const Users = () => {
   }, [endpoint]);
 
   return (
-    <div className="card mb-4">
+    <div className="card mb-4 shadow">
       <div className="card-body">
-        <h2 className="card-title mb-4">Users</h2>
+        <h2 className="card-title mb-4 text-primary">Users</h2>
         <div className="table-responsive">
-          <table className="table table-striped table-bordered">
-            <thead className="table-dark">
+          <table className="table table-hover table-bordered align-middle">
+            <thead className="table-primary">
               <tr>
-                <th>#</th>
-                <th>Username</th>
-                <th>Name</th>
-                <th>Email</th>
+                <th scope="col">#</th>
+                <th scope="col">Username</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
               </tr>
             </thead>
             <tbody>
-              {users.map((user, idx) => (
+              {users.length === 0 ? (
+                <tr><td colSpan="4" className="text-center">No users found.</td></tr>
+              ) : users.map((user, idx) => (
                 <tr key={user.id || idx}>
                   <td>{user.id || idx + 1}</td>
                   <td>{user.username || '-'}</td>
@@ -42,6 +44,7 @@ const Users = () => {
             </tbody>
           </table>
         </div>
+        <button className="btn btn-primary mt-3" type="button" disabled>Add User (Coming Soon)</button>
       </div>
     </div>
   );

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 const Workouts = () => {
   const [workouts, setWorkouts] = useState([]);
-  const endpoint = `${process.env.REACT_APP_CODESPACE_URL}/api/workouts/`;
+  const endpoint = `${window.REACT_APP_CODESPACE_URL}/api/workouts/`;
 
   useEffect(() => {
     console.log('Fetching Workouts from:', endpoint);
@@ -17,21 +17,23 @@ const Workouts = () => {
   }, [endpoint]);
 
   return (
-    <div className="card mb-4">
+    <div className="card mb-4 shadow">
       <div className="card-body">
-        <h2 className="card-title mb-4">Workouts</h2>
+        <h2 className="card-title mb-4 text-primary">Workouts</h2>
         <div className="table-responsive">
-          <table className="table table-striped table-bordered">
-            <thead className="table-dark">
+          <table className="table table-hover table-bordered align-middle">
+            <thead className="table-primary">
               <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Type</th>
-                <th>Duration</th>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Type</th>
+                <th scope="col">Duration</th>
               </tr>
             </thead>
             <tbody>
-              {workouts.map((workout, idx) => (
+              {workouts.length === 0 ? (
+                <tr><td colSpan="4" className="text-center">No workouts found.</td></tr>
+              ) : workouts.map((workout, idx) => (
                 <tr key={workout.id || idx}>
                   <td>{workout.id || idx + 1}</td>
                   <td>{workout.name || '-'}</td>
@@ -42,6 +44,7 @@ const Workouts = () => {
             </tbody>
           </table>
         </div>
+        <button className="btn btn-primary mt-3" type="button" disabled>Add Workout (Coming Soon)</button>
       </div>
     </div>
   );

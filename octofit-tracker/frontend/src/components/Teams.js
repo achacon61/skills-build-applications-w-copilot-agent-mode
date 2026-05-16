@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 const Teams = () => {
   const [teams, setTeams] = useState([]);
-  const endpoint = `${process.env.REACT_APP_CODESPACE_URL}/api/teams/`;
+  const endpoint = `${window.REACT_APP_CODESPACE_URL}/api/teams/`;
 
   useEffect(() => {
     console.log('Fetching Teams from:', endpoint);
@@ -17,20 +17,22 @@ const Teams = () => {
   }, [endpoint]);
 
   return (
-    <div className="card mb-4">
+    <div className="card mb-4 shadow">
       <div className="card-body">
-        <h2 className="card-title mb-4">Teams</h2>
+        <h2 className="card-title mb-4 text-primary">Teams</h2>
         <div className="table-responsive">
-          <table className="table table-striped table-bordered">
-            <thead className="table-dark">
+          <table className="table table-hover table-bordered align-middle">
+            <thead className="table-primary">
               <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Members</th>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Members</th>
               </tr>
             </thead>
             <tbody>
-              {teams.map((team, idx) => (
+              {teams.length === 0 ? (
+                <tr><td colSpan="3" className="text-center">No teams found.</td></tr>
+              ) : teams.map((team, idx) => (
                 <tr key={team.id || idx}>
                   <td>{team.id || idx + 1}</td>
                   <td>{team.name || '-'}</td>
@@ -40,6 +42,7 @@ const Teams = () => {
             </tbody>
           </table>
         </div>
+        <button className="btn btn-primary mt-3" type="button" disabled>Create Team (Coming Soon)</button>
       </div>
     </div>
   );
